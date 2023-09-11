@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MemberTest.Models;
+namespace MemberTest.Models.EFModels;
 
 public partial class Member
 {

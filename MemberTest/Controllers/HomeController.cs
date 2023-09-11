@@ -1,5 +1,7 @@
 ﻿using MemberTest.Models;
+using MemberTest.Models.EFModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace MemberTest.Controllers

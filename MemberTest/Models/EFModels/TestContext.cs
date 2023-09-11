@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace MemberTest.Models;
+namespace MemberTest.Models.EFModels;
 
 public partial class TestContext : DbContext
 {
@@ -20,8 +20,18 @@ public partial class TestContext : DbContext
     public virtual DbSet<Member> Members { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-929GQA9\\SQLEXPRESS;Initial Catalog=Test;Integrated Security=True;TrustServerCertificate=True;");
+    {
+        if (!optionsBuilder.IsConfigured)
+        {
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+            var connectionString = configuration.GetConnectionString("TestDatabase");
+            optionsBuilder.UseSqlServer(connectionString, x => x.UseNetTopologySuite());
+        }
+    }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
