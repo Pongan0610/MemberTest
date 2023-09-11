@@ -1,0 +1,81 @@
+﻿@model MemberTest.Models.ViewModels.Home.MemberViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>UpdateMember</title>
+    <script src="~/js/jquery-3.7.1.min.js"></script>
+    <script src="~/js/jquery.unobtrusive-ajax.min.js"></script>
+    <script type="text/javascript">
+        function OnSuccess(msg) {
+            alert(msg);
+            if (msg == "編輯成功") {
+                location.href = "MemberList";
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="UpdateMember" data-ajax="true" data-ajax-method="POST" data-ajax-success="OnSuccess">
+                <div class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label">姓名：</label>
+                    <input asp-for="Name" class="form-control" value="@Model.Name" required />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Sex" class="control-label">性別：</label>
+                    @{
+                        if (Convert.ToBoolean(Model.Sex))
+                        {
+                            <text>
+                                男<input type="radio" id="male" name="Sex" value="true" checked>
+                                女<input type="radio" id="female" name="Sex" value="false">
+                            </text>
+                        }
+                        else
+                        {
+                            <text>
+                                男<input type="radio" id="male" name="Sex" value="true">
+                                女<input type="radio" id="female" name="Sex" value="false" checked>
+                            </text>
+                        }
+                    }
+                </div>
+                <div class="form-group">
+                    <label asp-for="Birthday" class="control-label">出身年月日：</label>
+                    <input asp-for="Birthday" type="date" class="form-control" value="@Convert.ToDateTime(Model.Birthday).ToString("yyyy-MM-dd")" required />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Phone" class="control-label">手機：</label>
+                    <input asp-for="Phone" class="form-control" value="@Model.Phone" required />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Mail" class="control-label">電子信箱：</label>
+                    <input asp-for="Mail" class="form-control" value="@Model.Mail" required />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Address" class="control-label">地址：</label>
+                    <input asp-for="Address" class="form-control" value="@Model.Address" required />
+                </div>
+                @Html.HiddenFor(m => m.Sn)
+                <div class="form-group">
+                    <input type="submit" value="Edit" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="MemberList">Back to List</a>
+    </div>
+
+</body>
+</html>

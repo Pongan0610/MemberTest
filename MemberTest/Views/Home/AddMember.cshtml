@@ -1,0 +1,65 @@
+﻿@model MemberTest.Models.ViewModels.Home.MemberViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AddMember</title>
+    <script src="~/js/jquery-3.7.1.min.js"></script>
+    <script src="~/js/jquery.unobtrusive-ajax.min.js"></script>
+    <script type="text/javascript">
+        function OnSuccess(msg) {
+            alert(msg);
+            if (msg == "新增成功") {
+                location.href = "MemberList";
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="AddMember" data-ajax="true" data-ajax-method="POST" data-ajax-success="OnSuccess">
+                <div class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label">姓名：</label>
+                    <input asp-for="Name" class="form-control" required/>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Sex" class="control-label">性別：</label>
+                    男<input type="radio" id="male" name="Sex" checked="checked" value="true">
+                    女<input type="radio" id="female" name="Sex" value="false">
+                </div>
+                <div class="form-group">
+                    <label asp-for="Birthday" class="control-label">出身年月日：</label>
+                    <input asp-for="Birthday" type="date" class="form-control" required />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Phone" class="control-label">手機：</label>
+                    <input asp-for="Phone" class="form-control" required />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Mail" class="control-label">電子信箱：</label>
+                    <input asp-for="Mail" class="form-control" required />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Address" class="control-label">地址：</label>
+                    <input asp-for="Address" class="form-control" required />
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="MemberList">Back to List</a>
+    </div>
+</body>
+</html>

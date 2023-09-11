@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MemberTest.Models.EFModels.Member>
+﻿@model IEnumerable<MemberTest.Models.ViewModels.Home.MemberViewModel>
 
 @{
     Layout = null;
@@ -15,11 +15,27 @@
             border: 1px solid black;
             border-collapse: collapse;
         }
-</style>
+    </style>
+    <script src="~/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript">
+        function deleteMember(sn) {
+            if (confirm("確定要刪除嗎?")) {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("DeleteMember")",
+                    data: { sn: sn },
+                    success: function (result) {
+                        alert(result);
+                        location.reload();
+                    }
+                });
+            }
+        }
+    </script>
 </head>
 <body>
     <p>
-        <a asp-action="Create">Create New</a>
+        <a asp-action="AddMember">Create</a>
     </p>
     <table class="table">
         <thead>
@@ -69,9 +85,8 @@
                         @item.Address
                     </td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.Sn">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Sn">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Sn">Delete</a>
+                        <a asp-action="UpdateMember" asp-route-sn="@item.Sn">Edit</a> |
+                        <a href="javascript: void(0)" onclick="deleteMember(@item.Sn)">Delete</a>
                     </td>
                 </tr>
             }

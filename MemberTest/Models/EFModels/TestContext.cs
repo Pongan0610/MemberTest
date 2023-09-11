@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using MemberTest.Models.ViewModels.Home;
 
 namespace MemberTest.Models.EFModels;
 

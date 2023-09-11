@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Runtime.CompilerServices;
 
 namespace MemberTest.Models.EFModels;
 
@@ -17,7 +19,7 @@ public partial class Member
     [DisplayName("生日")]
     public DateTime? Birthday { get; set; }
 
-    [DisplayName("電話")]
+    [DisplayName("手機")]
     public string? Phone { get; set; }
 
     [DisplayName("信箱")]

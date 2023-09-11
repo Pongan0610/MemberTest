@@ -1,4 +1,7 @@
 ﻿using MemberTest.Models.EFModels;
+using MemberTest.Models.ViewModels.Home;
+using System.Net.Mail;
+using System.Text.RegularExpressions;
 
 namespace MemberTest.Models.LogicModels
 {
@@ -16,6 +19,21 @@ namespace MemberTest.Models.LogicModels
                 result = context.Members.ToList();
             }
             return result;
+        }
+
+        /// <summary>
+        /// 依編號取會員資料
+        /// </summary>
+        /// <param name="sn"></param>
+        /// <returns></returns>
+        public Member? GetMember(int sn)
+        {
+            var member = new Member();
+            using (var context = new TestContext())
+            {
+                member = context.Members.Where(w => w.Sn == sn).FirstOrDefault();
+            }
+            return member;
         }
 
         /// <summary>
@@ -54,7 +72,6 @@ namespace MemberTest.Models.LogicModels
                 using (var context = new TestContext())
                 {
                     context.Members.Update(member);
-                    context.Entry<Member>(member).Property(x => x.Sn).IsModified = false; // 忽略SN欄位
                     context.SaveChanges();
                 }
             }
@@ -95,6 +112,41 @@ namespace MemberTest.Models.LogicModels
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// 驗證資料正確性
+        /// </summary>
+        /// <param name="member"></param>
+        /// <returns></returns>
+        public MemberViewModel IsValid(MemberViewModel member)
+        {
+            List<string> errorLs = new List<string>();
+            if (member.Phone != null && !Regex.IsMatch(member.Phone, @"^09[0-9]{8}$")) // 手機
+            {
+                errorLs.Add("手機格式不正確");
+                member.IsVaild = false;
+            }
+
+            if (member.Mail != null) // email
+            {
+                try
+                {
+                    MailAddress m = new MailAddress(member.Mail);
+                }
+                catch (FormatException)
+                {
+                    member.IsVaild = false;
+                    errorLs.Add("郵件格式不正確");
+                }
+            }
+
+            if (errorLs.Count > 0)
+            {
+                member.Msg = string.Join(",", errorLs);
+            }
+
+            return member;
         }
     }
 }
