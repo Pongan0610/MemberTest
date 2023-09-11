@@ -63,5 +63,12 @@ namespace MemberTest.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public IActionResult MemberList()
+        {
+            MemberLogic memberLogic = new MemberLogic();
+            var model = memberLogic.GetMemberList();
+            return View(model);
+        }
     }
 }
